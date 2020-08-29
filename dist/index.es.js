@@ -6701,20 +6701,18 @@ exports.exec = exec;
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var reporter, _b, repo, payload, token, octokit, coverageSummary;
+        var reporter, _b, repo, payload, token, octokit, coverageSummary, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    _c.trys.push([0, 2, , 3]);
                     reporter = core.getInput('REPORTER') || 'text-summary';
                     return [4 /*yield*/, exec_1.exec('npx', [
                             'nyc',
                             'report',
-                            '--reporter',
-                            reporter,
+                            "--reporter=" + reporter,
                             '-t',
                             'coverage',
-                            '>>',
-                            'nyc.output.txt',
                         ])];
                 case 1:
                     _c.sent();
@@ -6731,7 +6729,12 @@ function run() {
                             body: coverageSummary,
                         });
                     }
-                    return [2 /*return*/];
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _c.sent();
+                    core.setFailed(error_1.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
     });

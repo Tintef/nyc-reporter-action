@@ -10,12 +10,9 @@ async function run () {
     await exec.exec('npx', [
       'nyc',
       'report',
-      '--reporter',
-      reporter,
+      `--reporter=${reporter}`,
       '-t',
       'coverage',
-      '>>',
-      'nyc.output.txt',
     ]);
     
     // Get repo and payload from context
