@@ -6719,21 +6719,27 @@ exports.exec = exec;
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var reporter, _b, repo, payload, token, octokit, coverageSummary;
+        var coverageSummary_1, options, reporter, _b, repo, payload, token, octokit, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    _c.trys.push([0, 2, , 3]);
+                    coverageSummary_1 = '';
+                    options = {
+                        listeners: {
+                            stdout: function (data) {
+                                coverageSummary_1 += data.toString();
+                            },
+                        },
+                    };
                     reporter = core.getInput('REPORTER') || 'text-summary';
                     return [4 /*yield*/, exec_1.exec('npx', [
                             'nyc',
                             'report',
-                            '--reporter',
-                            reporter,
+                            "--reporter=" + reporter,
                             '-t',
                             'coverage',
-                            '>>',
-                            'nyc.output.txt',
-                        ])];
+                        ], options)];
                 case 1:
                     _c.sent();
                     _b = github.context, repo = _b.repo, payload = _b.payload;
@@ -6741,15 +6747,19 @@ function run() {
                     if ((_a = payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) {
                         token = core.getInput('GITHUB_TOKEN');
                         octokit = github.getOctokit(token);
-                        coverageSummary = fs_1.readFileSync('./nyc.output.txt', 'utf-8');
                         octokit.issues.createComment({
                             repo: repo.repo,
                             owner: repo.owner,
                             issue_number: payload.pull_request.number,
-                            body: coverageSummary,
+                            body: "```\n" + coverageSummary_1 + "\n```",
                         });
                     }
-                    return [2 /*return*/];
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _c.sent();
+                    core.setFailed(error_1.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
     });
