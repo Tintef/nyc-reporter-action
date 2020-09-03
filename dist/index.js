@@ -6719,7 +6719,7 @@ exports.exec = exec;
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var coverageSummary_1, options, reporter, _b, repo, payload, token, octokit, error_1;
+        var coverageSummary_1, options, reporter, coverageFolder, _b, repo, payload, token, octokit, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -6733,12 +6733,13 @@ function run() {
                         },
                     };
                     reporter = core.getInput('REPORTER') || 'text-summary';
+                    coverageFolder = core.getInput('COVERAGE_FOLDER') || 'coverage';
                     return [4 /*yield*/, exec_1.exec('npx', [
                             'nyc',
                             'report',
                             "--reporter=" + reporter,
                             '-t',
-                            'coverage',
+                            coverageFolder,
                         ], options)];
                 case 1:
                     _c.sent();

@@ -14,6 +14,9 @@ Github token used for posting the comment. Add your token as a secret to repo in
 
 The reporter to use, by default it will use `text-summary` reporter.
 
+#### `COVERAGE_FOLDER` (**Optional**)
+
+Folder where the `coverage` folder is located.
 
 ## Output example:
 
