@@ -15,14 +15,15 @@ async function run () {
 
     // Report coverage with given reporter
     const reporter = core.getInput('REPORTER') || 'text-summary'
+    const coverageFolder = core.getInput('COVERAGE_FOLDER') || 'coverage'
     await exec.exec('npx', [
       'nyc',
       'report',
       `--reporter=${reporter}`,
       '-t',
-      'coverage',
+      coverageFolder,
     ], options);
-    
+
     // Get repo and payload from context
     const { repo, payload } = github.context;
 
