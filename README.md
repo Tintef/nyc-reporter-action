@@ -22,6 +22,10 @@ Folder where the `coverage` folder is located.
 
 Whether to use `-t` flag when running the nyc command
 
+#### `WORKING_DIRECTORY` (**Optional**)
+
+Working directory option for nyc command
+
 ## Output example:
 
 #### `text-summary`

@@ -17,22 +17,18 @@ async function run () {
     const reporter = core.getInput('REPORTER') || 'text-summary'
     const coverageFolder = core.getInput('COVERAGE_FOLDER') || 'coverage'
     const skipCoverageFolder = core.getInput('SKIP_COVERAGE_FOLDER') || false
+    const workingDirectory = core.getInput('WORKING_DIRECTORY') || '';
 
-    if (skipCoverageFolder) {
-      await exec.exec('npx', [
-        'nyc',
-        'report',
-        `--reporter=${reporter}`,
-      ], options);
-    } else {
-      await exec.exec('npx', [
-        'nyc',
-        'report',
-        `--reporter=${reporter}`,
-        '-t',
-        coverageFolder,
-      ], options);
+    let args = ['nyc', 'report', `--reporter=${reporter}`];
+    if (!skipCoverageFolder) {
+      args = [...args, '-t', coverageFolder];
     }
+
+    if (workingDirectory) {
+      args = [...args, '--cwd', workingDirectory];
+    }
+
+    await exec.exec('npx', args, options);
 
     // Get repo and payload from context
     const { repo, payload } = github.context;

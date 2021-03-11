@@ -17,6 +17,9 @@ inputs:
   SKIP_COVERAGE_FOLDER:
     description: Whether to use `-t` flag when running the nyc command
     required: false
+  WORKING_DIRECTORY:
+    description: Working directory option for nyc command
+    required: false
 runs:
   using: node12
   main: dist/index.js

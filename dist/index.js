@@ -84,6 +84,14 @@ function __generator(thisArg, body) {
     }
 }
 
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, basedir, module) {
@@ -6719,11 +6727,11 @@ exports.exec = exec;
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var coverageSummary_1, options, reporter, coverageFolder, skipCoverageFolder, _b, repo, payload, token, octokit, error_1;
+        var coverageSummary_1, options, reporter, coverageFolder, skipCoverageFolder, workingDirectory, args, _b, repo, payload, token, octokit, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    _c.trys.push([0, 5, , 6]);
+                    _c.trys.push([0, 2, , 3]);
                     coverageSummary_1 = '';
                     options = {
                         listeners: {
@@ -6735,26 +6743,17 @@ function run() {
                     reporter = core.getInput('REPORTER') || 'text-summary';
                     coverageFolder = core.getInput('COVERAGE_FOLDER') || 'coverage';
                     skipCoverageFolder = core.getInput('SKIP_COVERAGE_FOLDER') || false;
-                    if (!skipCoverageFolder) return [3 /*break*/, 2];
-                    return [4 /*yield*/, exec_1.exec('npx', [
-                            'nyc',
-                            'report',
-                            "--reporter=" + reporter,
-                        ], options)];
+                    workingDirectory = core.getInput('WORKING_DIRECTORY') || '';
+                    args = ['nyc', 'report', "--reporter=" + reporter];
+                    if (!skipCoverageFolder) {
+                        args = __spreadArrays(args, ['-t', coverageFolder]);
+                    }
+                    if (workingDirectory) {
+                        args = __spreadArrays(args, ['--cwd', workingDirectory]);
+                    }
+                    return [4 /*yield*/, exec_1.exec('npx', args, options)];
                 case 1:
                     _c.sent();
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, exec_1.exec('npx', [
-                        'nyc',
-                        'report',
-                        "--reporter=" + reporter,
-                        '-t',
-                        coverageFolder,
-                    ], options)];
-                case 3:
-                    _c.sent();
-                    _c.label = 4;
-                case 4:
                     _b = github.context, repo = _b.repo, payload = _b.payload;
                     // If running on a PR, submit a comment with the coverage
                     if ((_a = payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) {
@@ -6767,12 +6766,12 @@ function run() {
                             body: "```\n" + coverageSummary_1 + "\n```",
                         });
                     }
-                    return [3 /*break*/, 6];
-                case 5:
+                    return [3 /*break*/, 3];
+                case 2:
                     error_1 = _c.sent();
                     core.setFailed(error_1.message);
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
     });
