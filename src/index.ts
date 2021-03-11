@@ -14,9 +14,12 @@ async function run () {
     };
 
     // Report coverage with given reporter
+    const runBefore = core.getInput('RUN_BEFORE') || '';
     const reporter = core.getInput('REPORTER') || 'text-summary'
     const coverageFolder = core.getInput('COVERAGE_FOLDER') || 'coverage'
     const skipCoverageFolder = core.getInput('SKIP_COVERAGE_FOLDER') || false
+
+    if (runBefore) await exec.exec(runBefore);
 
     if (skipCoverageFolder) {
       await exec.exec('npx', [

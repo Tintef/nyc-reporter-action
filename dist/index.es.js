@@ -6701,11 +6701,11 @@ exports.exec = exec;
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var coverageSummary_1, options, reporter, coverageFolder, skipCoverageFolder, _b, repo, payload, token, octokit, error_1;
+        var coverageSummary_1, options, runBefore, reporter, coverageFolder, skipCoverageFolder, _b, repo, payload, token, octokit, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    _c.trys.push([0, 5, , 6]);
+                    _c.trys.push([0, 7, , 8]);
                     coverageSummary_1 = '';
                     options = {
                         listeners: {
@@ -6714,29 +6714,36 @@ function run() {
                             },
                         },
                     };
+                    runBefore = core.getInput('RUN_BEFORE') || '';
                     reporter = core.getInput('REPORTER') || 'text-summary';
                     coverageFolder = core.getInput('COVERAGE_FOLDER') || 'coverage';
                     skipCoverageFolder = core.getInput('SKIP_COVERAGE_FOLDER') || false;
-                    if (!skipCoverageFolder) return [3 /*break*/, 2];
+                    if (!runBefore) return [3 /*break*/, 2];
+                    return [4 /*yield*/, exec_1.exec(runBefore)];
+                case 1:
+                    _c.sent();
+                    _c.label = 2;
+                case 2:
+                    if (!skipCoverageFolder) return [3 /*break*/, 4];
                     return [4 /*yield*/, exec_1.exec('npx', [
                             'nyc',
                             'report',
                             "--reporter=" + reporter,
                         ], options)];
-                case 1:
+                case 3:
                     _c.sent();
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, exec_1.exec('npx', [
+                    return [3 /*break*/, 6];
+                case 4: return [4 /*yield*/, exec_1.exec('npx', [
                         'nyc',
                         'report',
                         "--reporter=" + reporter,
                         '-t',
                         coverageFolder,
                     ], options)];
-                case 3:
+                case 5:
                     _c.sent();
-                    _c.label = 4;
-                case 4:
+                    _c.label = 6;
+                case 6:
                     _b = github.context, repo = _b.repo, payload = _b.payload;
                     // If running on a PR, submit a comment with the coverage
                     if ((_a = payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) {
@@ -6749,12 +6756,12 @@ function run() {
                             body: "```\n" + coverageSummary_1 + "\n```",
                         });
                     }
-                    return [3 /*break*/, 6];
-                case 5:
+                    return [3 /*break*/, 8];
+                case 7:
                     error_1 = _c.sent();
                     core.setFailed(error_1.message);
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 8];
+                case 8: return [2 /*return*/];
             }
         });
     });
