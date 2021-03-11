@@ -18,6 +18,10 @@ The reporter to use, by default it will use `text-summary` reporter.
 
 Folder where the `coverage` folder is located.
 
+#### `SKIP_COVERAGE_FOLDER` (**Optional**)
+
+Whether to use `-t` flag when running the nyc command
+
 ## Output example:
 
 #### `text-summary`
