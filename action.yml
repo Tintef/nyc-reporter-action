@@ -14,6 +14,9 @@ inputs:
   COVERAGE_FOLDER:
     description: Folder where the coverage is
     required: false
+  SKIP_COVERAGE_FOLDER:
+    description: Whether to use `-t` flag when running the nyc command
+    required: false
 runs:
   using: node12
   main: dist/index.js

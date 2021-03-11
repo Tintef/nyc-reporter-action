@@ -16,13 +16,23 @@ async function run () {
     // Report coverage with given reporter
     const reporter = core.getInput('REPORTER') || 'text-summary'
     const coverageFolder = core.getInput('COVERAGE_FOLDER') || 'coverage'
-    await exec.exec('npx', [
-      'nyc',
-      'report',
-      `--reporter=${reporter}`,
-      '-t',
-      coverageFolder,
-    ], options);
+    const skipCoverageFolder = core.getInput('SKIP_COVERAGE_FOLDER') || false
+
+    if (skipCoverageFolder) {
+      await exec.exec('npx', [
+        'nyc',
+        'report',
+        `--reporter=${reporter}`,
+      ], options);
+    } else {
+      await exec.exec('npx', [
+        'nyc',
+        'report',
+        `--reporter=${reporter}`,
+        '-t',
+        coverageFolder,
+      ], options);
+    }
 
     // Get repo and payload from context
     const { repo, payload } = github.context;
