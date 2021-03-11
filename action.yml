@@ -17,6 +17,9 @@ inputs:
   SKIP_COVERAGE_FOLDER:
     description: Whether to use `-t` flag when running the nyc command
     required: false
+  RUN_BEFORE:
+    description: Shell command to run before reporting the coverage
+    required: false
 runs:
   using: node12
   main: dist/index.js
