@@ -18,6 +18,7 @@ async function run () {
     const coverageFolder = core.getInput('COVERAGE_FOLDER') || 'coverage'
     const skipCoverageFolder = core.getInput('SKIP_COVERAGE_FOLDER') || false
     const workingDirectory = core.getInput('WORKING_DIRECTORY') || '';
+    const exclude = core.getInput('EXCLUDE') || '';
 
     let args = ['nyc', 'report', `--reporter=${reporter}`];
     if (!skipCoverageFolder) {
@@ -26,6 +27,10 @@ async function run () {
 
     if (workingDirectory) {
       args = [...args, '--cwd', workingDirectory];
+    }
+
+    if (exclude) {
+      args = [...args, '--exclude', exclude];
     }
 
     await exec.exec('npx', args, options);

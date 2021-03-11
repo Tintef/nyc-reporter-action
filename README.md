@@ -26,6 +26,10 @@ Whether to use `-t` flag when running the nyc command
 
 Working directory option for nyc command
 
+### `EXCLUDE` (**Optional**)
+
+Folders to exclude on the report (string)
+
 ## Output example:
 
 #### `text-summary`

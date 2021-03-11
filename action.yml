@@ -20,6 +20,9 @@ inputs:
   WORKING_DIRECTORY:
     description: Working directory option for nyc command
     required: false
+  EXCLUDE:
+    description: Folders to exclude on the report (string)
+    required: false
 runs:
   using: node12
   main: dist/index.js
